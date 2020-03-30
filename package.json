@@ -42,7 +42,7 @@
     "babel-core": "^6.21.0",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^20.0.3",
-    "babel-preset-env": "^1.1.6",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-flow": "^6.23.0",
     "eslint": "^3.2.2",
     "eslint-config-interactivethings": "^3.0.0",
