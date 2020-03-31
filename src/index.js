@@ -169,9 +169,9 @@ module.exports = function loader(content: Buffer) {
       .replace(/\[width\]/ig, width)
       .replace(/\[height\]/ig, height);
 
-    let fileNameWebp = fileName.replace(/(jpe?g|png|svg|gif)$/ig, 'webp');
+    // let fileNameWebp = fileName.replace(/(jpe?g|png|svg|gif)$/ig, 'webp');
 
-    const { outputPath, publicPath } = getOutputAndPublicPath(fileNameWebp, config);
+    const { outputPath, publicPath } = getOutputAndPublicPath(fileName, config);
 
     loaderContext.emitFile(outputPath, data);
 
