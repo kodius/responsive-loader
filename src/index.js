@@ -169,9 +169,9 @@ module.exports = function loader(content: Buffer) {
       .replace(/\[width\]/ig, width)
       .replace(/\[height\]/ig, height);
 
-    // let fileNameWebp = fileName.replace(/(jpe?g|png|svg|gif)$/ig, 'webp');
+    let fileNameWebp = fileName.replace(/(jpe?g|png|svg|gif)$/ig, 'webp');
 
-    const { outputPath, publicPath } = getOutputAndPublicPath(fileName, config);
+    const { outputPath, publicPath } = getOutputAndPublicPath(fileNameWebp, config);
 
     loaderContext.emitFile(outputPath, data);
 
@@ -225,8 +225,10 @@ module.exports = function loader(content: Buffer) {
         }));
       }
 
-      let firstPass = Promise.all(promises)
-        .then(results => outputPlaceholder
+      Promise.all(promises)
+        .then(results => 
+          
+         outputPlaceholder
           ? {
             files: results.slice(0, -1).map(createFile),
             placeholder: createPlaceholder(results[results.length - 1])
@@ -234,11 +236,12 @@ module.exports = function loader(content: Buffer) {
           : {
             files: results.map(createFile)
           }
-        );
+        ).then(firstPass => 
+            Promise.all(promisesWebp).then(results =>
+              firstPass['webpFiles'] = results.slice(0, -1).map(createWebpFile),
+            )
+          )
 
-      return Promise.all(promisesWebp).then(results =>
-        firstPass['webpFiles'] = results.slice(0, -1).map(createWebpFile),
-      )
     })
     .then(({ files, webpFiles, placeholder}) => {
       const srcset = files.map(f => f.src).join('+","+');
