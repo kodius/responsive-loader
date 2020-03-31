@@ -175,7 +175,6 @@ module.exports = function loader(content: Buffer) {
 
     console.log("---TEST---");
     console.log(JSON.stringify(fileName));
-    console.log(JSON.stringify(data));
     console.log(JSON.stringify(publicPath));
 
     return {
