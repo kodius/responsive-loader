@@ -161,6 +161,31 @@ module.exports = function loader(content: Buffer) {
     };
   };
 
+  const createWebpFile = ({ data, width, height }) => {
+    const fileName = loaderUtils.interpolateName(loaderContext, name, {
+      context: outputContext,
+      content: data
+    })
+      .replace(/\[width\]/ig, width)
+      .replace(/\[height\]/ig, height);
+
+    console.log("---TEST---")
+    console.log(JSON.stringify(fileName))
+    console.log(JSON.stringify(config))
+
+
+    const { outputPath, publicPath } = getOutputAndPublicPath(fileName, config);
+
+    loaderContext.emitFile(outputPath, data);
+
+    return {
+      src: publicPath + `+${JSON.stringify(` ${width}w`)}`,
+      path: publicPath,
+      width: width,
+      height: height
+    };
+  };
+
   const createPlaceholder = ({data}: {data: Buffer}) => {
     const placeholder = data.toString('base64');
     return JSON.stringify('data:' + (mime ? mime + ';' : '') + 'base64,' + placeholder);
@@ -198,12 +223,12 @@ module.exports = function loader(content: Buffer) {
         .then(results => outputPlaceholder
           ? {
             files: results.slice(0, -1).map(createFile),
-            webpFiles: results.slice(0, -1).map(createFile),
+            webpFiles: results.slice(0, -1).map(createWebpFile),
             placeholder: createPlaceholder(results[results.length - 1])
           }
           : {
             files: results.map(createFile),
-            webpFiles: results.slice(0, -1).map(createFile),
+            webpFiles: results.slice(0, -1).map(createWebpFile),
           }
          );
     })
