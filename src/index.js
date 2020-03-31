@@ -170,7 +170,7 @@ module.exports = function loader(content: Buffer) {
       .replace(/\[height\]/ig, height);
 
     config["format"] = 'webp';
-    fileNameWebp = fileName.replace(/\[ext\]/ig, 'webp');
+    let fileNameWebp = fileName.replace(/\[ext\]/ig, 'webp');
 
     console.log("CREATE FILE WEBP");
     console.log(JSON.stringify(fileNameWebp))
