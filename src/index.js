@@ -245,10 +245,6 @@ module.exports = function loader(content: Buffer) {
     .then(({ files, webpFiles, placeholder}) => {
       const srcset = files.map(f => f.src).join('+","+');
       const srcsetWebp = webpFiles.map(f => f.src).join('+","+');
-      console.log('-------------')
-      console.log(JSON.stringify(files))
-      console.log(JSON.stringify(webpFiles))
-      console.log('-------------')
 
       const images = files.map(f => '{path:' + f.path + ',width:' + f.width + ',height:' + f.height + '}').join(',');
 
