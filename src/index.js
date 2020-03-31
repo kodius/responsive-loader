@@ -206,7 +206,7 @@ module.exports = function loader(content: Buffer) {
       let promises = [];
       const widthsToGenerate = new Set();
       let adapterWebpOptions = adapterOptions;
-      adapterWebpOptions['format'] = "webp"
+      adapterWebpOptions['format'] = "webp";
 
       (Array.isArray(sizes) ? sizes : [sizes]).forEach((size) => {
         const width = Math.min(metadata.width, parseInt(size, 10));
