@@ -149,10 +149,6 @@ module.exports = function loader(content: Buffer) {
     .replace(/\[width\]/ig, width)
     .replace(/\[height\]/ig, height);
 
-    console.log("CREATE FILE");
-    console.log(JSON.stringify(name))
-    console.log(JSON.stringify(config))
-
     const {outputPath, publicPath} = getOutputAndPublicPath(fileName, config);
 
     loaderContext.emitFile(outputPath, data);
@@ -173,11 +169,14 @@ module.exports = function loader(content: Buffer) {
       .replace(/\[width\]/ig, width)
       .replace(/\[height\]/ig, height);
 
+    config["format"] = 'webp';
+    fileNameWebp = fileName.replace(/\[ext\]/ig, 'webp');
+
     console.log("CREATE FILE WEBP");
-    console.log(JSON.stringify(name))
+    console.log(JSON.stringify(fileNameWebp))
     console.log(JSON.stringify(config))
 
-    const { outputPath, publicPath } = getOutputAndPublicPath(fileName, config);
+    const { outputPath, publicPath } = getOutputAndPublicPath(fileNameWebp, config);
 
     loaderContext.emitFile(outputPath, data);
 
