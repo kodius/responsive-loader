@@ -225,7 +225,7 @@ module.exports = function loader(content: Buffer) {
         }));
       }
 
-      result = Promise.all(promises)
+      return Promise.all(promises)
         .then(results => outputPlaceholder
           ? {
             files: results.slice(0, -1).map(createFile),
@@ -241,7 +241,6 @@ module.exports = function loader(content: Buffer) {
               }
             )
          })
-      return result
     })
     .then(({ files, webpFiles, placeholder}) => {
       console.log("----------------")
