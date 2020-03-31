@@ -236,7 +236,7 @@ module.exports = function loader(content: Buffer) {
           }
         ).then( (firstPass) =>  {
             return Promise.all(promisesWebp).then((results) => {
-                firstPass['webpFiles'] = results.slice(0, -1).map(createWebpFile)
+                firstPass['webpFiles'] = results.map(createWebpFile)
                 return firstPass;
               }
             )
@@ -246,8 +246,8 @@ module.exports = function loader(content: Buffer) {
       const srcset = files.map(f => f.src).join('+","+');
       const srcsetWebp = webpFiles.map(f => f.src).join('+","+');
       console.log('-------------')
+      console.log(JSON.stringify(files))
       console.log(JSON.stringify(webpFiles))
-      console.log(JSON.stringify(srcsetWebp))
       console.log('-------------')
 
       const images = files.map(f => '{path:' + f.path + ',width:' + f.width + ',height:' + f.height + '}').join(',');
