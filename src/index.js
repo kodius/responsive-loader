@@ -236,10 +236,11 @@ module.exports = function loader(content: Buffer) {
           }
         ).then( (firstPass) =>  {
             console.log(JSON.stringify(firstPass));
-            Promise.all(promisesWebp).then(results =>
-              firstPass['webpFiles'] = results.slice(0, -1).map(createWebpFile),
+            Promise.all(promisesWebp).then((results) => {
+                firstPass['webpFiles'] = results.slice(0, -1).map(createWebpFile)
+                return firstPass;
+              }
             )
-            return firstPass;
          })
     })
     .then(({ files, webpFiles, placeholder}) => {
