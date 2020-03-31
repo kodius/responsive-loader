@@ -151,7 +151,6 @@ module.exports = function loader(content: Buffer) {
 
     console.log("CREATE FILE");
     console.log(JSON.stringify(name))
-    console.log(JSON.stringify(loaderContext))
     console.log(JSON.stringify(config))
 
     const {outputPath, publicPath} = getOutputAndPublicPath(fileName, config);
