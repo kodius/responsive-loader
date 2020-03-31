@@ -176,7 +176,6 @@ module.exports = function loader(content: Buffer) {
     console.log("---TEST---");
     console.log(JSON.stringify(fileName));
     console.log(JSON.stringify(data));
-    console.log(JSON.stringify(config));
     console.log(JSON.stringify(publicPath));
 
     return {
@@ -213,7 +212,6 @@ module.exports = function loader(content: Buffer) {
           }));
 
           console.log(JSON.stringify(mime))
-
 
           promises.push(img.resize({
             width,
