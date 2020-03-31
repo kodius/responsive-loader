@@ -169,14 +169,13 @@ module.exports = function loader(content: Buffer) {
       .replace(/\[width\]/ig, width)
       .replace(/\[height\]/ig, height);
 
-    config["format"] = "webp"
-
     const { outputPath, publicPath } = getOutputAndPublicPath(fileName, config);
 
     loaderContext.emitFile(outputPath, data);
 
     console.log("---TEST---")
     console.log(JSON.stringify(fileName))
+    console.log(JSON.stringify(data))
     console.log(JSON.stringify(config))
     console.log(JSON.stringify(publicPath))
 
@@ -198,6 +197,8 @@ module.exports = function loader(content: Buffer) {
     .then((metadata) => {
       let promises = [];
       const widthsToGenerate = new Set();
+      let adapterWebpOptions = adapterOptions
+      adapterWebpOptions["format"] = "webp"
 
       (Array.isArray(sizes) ? sizes : [sizes]).forEach((size) => {
         const width = Math.min(metadata.width, parseInt(size, 10));
@@ -209,6 +210,13 @@ module.exports = function loader(content: Buffer) {
             width,
             mime,
             options: adapterOptions
+          }));
+
+
+          promises.push(img.resize({
+            width,
+            mime,
+            options: adapterWebpOptions
           }));
         }
       });
