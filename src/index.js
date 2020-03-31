@@ -198,21 +198,25 @@ module.exports = function loader(content: Buffer) {
         .then(results => outputPlaceholder
           ? {
             files: results.slice(0, -1).map(createFile),
+            webpFiles: results.slice(0, -1).map(createFile),
             placeholder: createPlaceholder(results[results.length - 1])
           }
           : {
-            files: results.map(createFile)
+            files: results.map(createFile),
+            webpFiles: results.slice(0, -1).map(createFile),
           }
          );
     })
-    .then(({files, placeholder}) => {
+    .then(({ files, webpFiles, placeholder}) => {
       const srcset = files.map(f => f.src).join('+","+');
+      const srcsetWebp = webpFiles.map(f => f.src).join('+","+');
 
       const images = files.map(f => '{path:' + f.path + ',width:' + f.width + ',height:' + f.height + '}').join(',');
 
       const firstImage = files[0];
 
       loaderCallback(null, 'module.exports = {' +
+          'srcSetWebP:' + srcsetWebp + ',' +
           'srcSet:' + srcset + ',' +
           'images:[' + images + '],' +
           'src:' + firstImage.path + ',' +
@@ -225,4 +229,4 @@ module.exports = function loader(content: Buffer) {
     .catch(err => loaderCallback(err));
 };
 
-module.exports.raw = true; // get buffer stream instead of utf8 string
+module.exports.raw = true; // get buffer stream instead of :wutf8 string
