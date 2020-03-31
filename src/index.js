@@ -192,6 +192,7 @@ module.exports = function loader(content: Buffer) {
   return img.metadata()
     .then((metadata) => {
       let promises = [];
+      let promisesWebp = [];
       const widthsToGenerate = new Set();
       let adapterWebpOptions = adapterOptions;
       adapterWebpOptions['format'] = "webp";
@@ -208,7 +209,7 @@ module.exports = function loader(content: Buffer) {
             options: adapterOptions
           }));
 
-          promises.push(img.resize({
+          promisesWebp.push(img.resize({
             width,
             mime: 'image/webp',
             options: adapterWebpOptions
@@ -224,18 +225,20 @@ module.exports = function loader(content: Buffer) {
         }));
       }
 
-      return Promise.all(promises)
+      let firstPass = Promise.all(promises)
         .then(results => outputPlaceholder
           ? {
             files: results.slice(0, -1).map(createFile),
-            webpFiles: results.slice(0, -1).map(createWebpFile),
             placeholder: createPlaceholder(results[results.length - 1])
           }
           : {
-            files: results.map(createFile),
-            webpFiles: results.slice(0, -1).map(createWebpFile),
+            files: results.map(createFile)
           }
-         );
+        );
+
+      return Promise.all(promisesWebp).then(results =>
+        firstPass['webpFiles'] = results.slice(0, -1).map(createWebpFile),
+      )
     })
     .then(({ files, webpFiles, placeholder}) => {
       const srcset = files.map(f => f.src).join('+","+');
