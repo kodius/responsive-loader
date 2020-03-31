@@ -169,20 +169,11 @@ module.exports = function loader(content: Buffer) {
       .replace(/\[width\]/ig, width)
       .replace(/\[height\]/ig, height);
 
-    config["format"] = 'webp';
     let fileNameWebp = fileName.replace(/(jpe?g|png|svg|gif)$/ig, 'webp');
-
-    console.log("CREATE FILE WEBP");
-    console.log(JSON.stringify(fileNameWebp))
-    console.log(JSON.stringify(config))
 
     const { outputPath, publicPath } = getOutputAndPublicPath(fileNameWebp, config);
 
     loaderContext.emitFile(outputPath, data);
-
-    console.log("---TEST---");
-    console.log(JSON.stringify(fileName));
-    console.log(JSON.stringify(publicPath));
 
     return {
       src: publicPath + `+${JSON.stringify(` ${width}w`)}`,
@@ -221,7 +212,7 @@ module.exports = function loader(content: Buffer) {
             width,
             'webp': 'image/webp',
             options: adapterWebpOptions
-          }));
+          }).toFormat('webp'));
         }
       });
 
