@@ -169,14 +169,16 @@ module.exports = function loader(content: Buffer) {
       .replace(/\[width\]/ig, width)
       .replace(/\[height\]/ig, height);
 
-    console.log("---TEST---")
-    console.log(JSON.stringify(fileName))
-    console.log(JSON.stringify(config))
-
+    config["format"] = "webp"
 
     const { outputPath, publicPath } = getOutputAndPublicPath(fileName, config);
 
     loaderContext.emitFile(outputPath, data);
+
+    console.log("---TEST---")
+    console.log(JSON.stringify(fileName))
+    console.log(JSON.stringify(config))
+    console.log(JSON.stringify(publicPath))
 
     return {
       src: publicPath + `+${JSON.stringify(` ${width}w`)}`,
