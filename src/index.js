@@ -235,20 +235,14 @@ module.exports = function loader(content: Buffer) {
             files: results.map(createFile)
           }
         ).then( (firstPass) =>  {
-            console.log(JSON.stringify(firstPass))
             return Promise.all(promisesWebp).then((results) => {
                 firstPass['webpFiles'] = results.slice(0, -1).map(createWebpFile)
-                console.log(JSON.stringify(firstPass))
                 return firstPass;
               }
             )
          })
     })
     .then(({ files, webpFiles, placeholder}) => {
-      console.log("----------------")
-      console.log(JSON.stringify(files));
-      console.log(JSON.stringify(webpFiles));
-      console.log("----------------")
       const srcset = files.map(f => f.src).join('+","+');
       const srcsetWebp = webpFiles.map(f => f.src).join('+","+');
 
