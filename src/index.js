@@ -196,6 +196,7 @@ module.exports = function loader(content: Buffer) {
       let promises = [];
       const widthsToGenerate = new Set();
       let adapterWebpOptions = adapterOptions;
+      adapterWebpOptions['format'] = "webp"
       console.log(JSON.stringify(adapterWebpOptions));
 
       (Array.isArray(sizes) ? sizes : [sizes]).forEach((size) => {
@@ -214,7 +215,7 @@ module.exports = function loader(content: Buffer) {
 
           promises.push(img.resize({
             width,
-            mime,
+            'webp': 'image/webp',
             options: adapterWebpOptions
           }));
         }
