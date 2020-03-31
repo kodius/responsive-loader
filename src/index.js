@@ -210,9 +210,9 @@ module.exports = function loader(content: Buffer) {
 
           promises.push(img.resize({
             width,
-            'webp': 'image/webp',
+            mime: 'image/webp',
             options: adapterWebpOptions
-          }).toFormat('webp'));
+          }));
         }
       });
 
