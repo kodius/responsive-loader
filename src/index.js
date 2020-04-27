@@ -31,7 +31,7 @@ type Config = {
   background: string | number | void,
   placeholder: string | boolean | void,
   adapter: ?Function,
-  format: 'png' | 'jpg' | 'jpeg' | 'webp',
+  format:  'jpeg',
   disable: ?boolean,
 };
 
